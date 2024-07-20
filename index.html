@@ -3,17 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Cat Images</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Animated Text</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #b30000;
+            background-image: radial-gradient(circle, gold 2px, transparent 2px);
+            background-size: 25px 25px;
+            font-family: 'Arial', sans-serif;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+        h1 {
+            font-size: 2rem;
+            color: #fff;
+            text-align: center;
+            z-index: 1;
+        }
+        .input-container {
+            margin: 20px 0;
+            z-index: 1;
+        }
+        input {
+            padding: 10px;
+            font-size: 1rem;
+            border: 2px solid gold;
+            border-radius: 5px;
+            margin-right: 10px;
+            width: 200px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            border: 2px solid gold;
+            border-radius: 5px;
+            background-color: gold;
+            color: red;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        button:hover {
+            background-color: red;
+            color: gold;
+        }
+        .hidden {
+            display: none;
+        }
+        .animated-text {
+            font-size: 1.5rem;
+            white-space: pre-wrap;
+            margin-top: 20px;
+            text-align: center;
+            z-index: 1;
+        }
+        .heart {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            transform: rotate(0deg);
+            animation: floatUp 12s infinite;
+        }
+        .heart::before, .heart::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+        }
+        .heart::before {
+            top: -5px;
+            left: 0;
+        }
+        .heart::after {
+            left: 5px;
+            top: 0;
+        }
+        @keyframes floatUp {
+            0% {
+                bottom: 0;
+                opacity: 1;
+                transform: translateX(0) rotate(0deg);
+            }
+            100% {
+                bottom: 100vh;
+                opacity: 0;
+                transform: translateX(200px) rotate(0deg);
+            }
+        }
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        .typewriter {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: .15em solid black;
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: black; }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Random Cat Images</h1>
-        <button id="new-cat-button">Get New Cat</button>
-        <div id="cat-container">
-            <img id="cat-image" src="" alt="Random Cat Image">
-        </div>
-    </div>
-    <script src="script.js"></script>
+
+<h1>I will ask milna chahogi?</h1>
+
+<div class="input-container">
+    <input type="text" placeholder="kaha" id="inputField">
+    <button onclick="showText()">Submit</button>
+</div>
+
+<div id="animatedText" class="hidden">
+</div>
+
+<script>
+    function showText() {
+        const inputField = document.getElementById('inputField');
+        const animatedText = document.getElementById('animatedText');
+        const lines = [
+            "Na restaurant me kahi",
+            "Na hotel me kisi",
+            "Na park me kahi",
+            "Na chorahe pr kisi",
+            "",
+            "Me tumhe ganga kinare bulau Tum aaogi ky?",
+            "",
+            "Na khud bolna kuch",
+            "na mujhe kehne dena",
+            "",
+            "Bas pakad kr hath mera",
+            "Sath baithe rehna",
+            "",
+            "Me sirf or sirf tumhe dekhuga",
+            "Tum in nazaro ko ijazat dena",
+            "",
+            "Jo hawaye julfey bikhare teri",
+            "To hawao ko tum behne dena",
+            "",
+            "Jab julfey tere gaal ko chuyegi",
+            "To julfey me sawaruga",
+            "",
+            "Chahe dekhe fir apsara mujhe",
+            "Me tujhko hi niharuga"
+        ];
+
+        if (inputField.value.trim() !== '') {
+            animatedText.classList.remove('hidden');
+            typeLine(0, lines);
+        }
+    }
+
+    function typeLine(index, lines) {
+        if (index >= lines.length) return;
+
+        const line = lines[index];
+        const lineElement = document.createElement('div');
+        lineElement.classList.add('typewriter');
+        lineElement.style.animation = `typing ${line.length / 10}s steps(${line.length}, end), blink-caret .75s step-end infinite`;
+        lineElement.textContent = line;
+        document.getElementById('animatedText').appendChild(lineElement);
+
+        setTimeout(() => {
+            lineElement.style.border = 'none';
+            typeLine(index + 1, lines);
+        }, (line.length / 10) * 1000 + 1000);
+    }
+
+    function createHearts() {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = Math.random() * 5 + 7 + 's';
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 12000);
+    }
+
+    setInterval(createHearts, 100);
+</script>
+
 </body>
 </html>
