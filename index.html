@@ -29,13 +29,16 @@
         .input-container {
             margin: 20px 0;
             z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         input {
             padding: 10px;
             font-size: 1rem;
             border: 2px solid gold;
             border-radius: 5px;
-            margin-right: 10px;
+            margin-bottom: 10px;
             width: 200px;
         }
         button {
@@ -56,9 +59,9 @@
             display: none;
         }
         .animated-text {
-            font-size:16px;
+            font-size: 1.5rem;
             white-space: pre-wrap;
-color: white;
+            color: white;
             margin-top: 20px;
             text-align: center;
             z-index: 1;
@@ -67,11 +70,12 @@ color: white;
         }
         .animated-text div {
             color: white;
+            margin: 10px 0;
         }
         .heart {
             position: absolute;
-            width: 10px;
-            height: 10px;
+            width: 15px;
+            height: 15px;
             background-color: red;
             transform: rotate(0deg);
             animation: floatUp 12s infinite;
@@ -79,17 +83,17 @@ color: white;
         .heart::before, .heart::after {
             content: '';
             position: absolute;
-            width: 10px;
-            height: 10px;
+            width: 15px;
+            height: 15px;
             background-color: red;
             border-radius: 50%;
         }
         .heart::before {
-            top: -5px;
+            top: -7.5px;
             left: 0;
         }
         .heart::after {
-            left: 5px;
+            left: 7.5px;
             top: 0;
         }
         @keyframes floatUp {
@@ -112,12 +116,14 @@ color: white;
             display: inline-block;
             overflow: hidden;
             white-space: nowrap;
-            border-right: .15em solid black;
+            border-right: .15em solid white;
             font-weight: bold;
+            font-size: 1.5rem;
+            color: white;
         }
         @keyframes blink-caret {
             from, to { border-color: transparent; }
-            50% { border-color: black; }
+            50% { border-color: white; }
         }
     </style>
 </head>
@@ -126,7 +132,8 @@ color: white;
 <h1>Me: milna chahogi?</h1>
 
 <div class="input-container">
-  <h1> She: </h1><input type="text" placeholder="kaha" id="inputField">
+    <h1>She:</h1>
+    <input type="text" placeholder="kaha" id="inputField">
     <button onclick="showText()">Submit</button>
 </div>
 
@@ -138,30 +145,30 @@ color: white;
         const inputField = document.getElementById('inputField');
         const animatedText = document.getElementById('animatedText');
         const lines = [
-            "Na restaurant me kahi. ",
-            "Na hotel me kisi ",
-            "Na park me kahi ",
-            "Na chorahe pr kisi ",
+            "Na restaurant me kahi.",
+            "Na hotel me kisi.",
+            "Na park me kahi.",
+            "Na chorahe pr kisi.",
             "",
             "Me tumhe ganga kinare bulau Tum aaogi ky?",
             "",
-            "Na khud bolna kuch",
-            "na mujhe kehne dena",
+            "Na khud bolna kuch.",
+            "na mujhe kehne dena.",
             "",
-            "Bas pakad kr hath mera",
-            "Sath baithe rehna",
+            "Bas pakad kr hath mera.",
+            "Sath baithe rehna.",
             "",
-            "Me sirf or sirf tumhe dekhuga",
-            "Tum in nazaro ko ijazat dena",
+            "Me sirf or sirf tumhe dekhuga.",
+            "Tum in nazaro ko ijazat dena.",
             "",
-            "Jo hawaye julfey bikhare teri",
-            "To hawao ko tum behne dena",
+            "Jo hawaye julfey bikhare teri.",
+            "To hawao ko tum behne dena.",
             "",
-            "Jab julfey tere gaal ko chuyegi",
-            "To julfey me sawaruga",
+            "Jab julfey tere gaal ko chuyegi.",
+            "To julfey me sawaruga.",
             "",
-            "Chahe dekhe fir apsara mujhe",
-            "Me tujhko hi niharuga"
+            "Chahe dekhe fir apsara mujhe.",
+            "Me tujhko hi niharuga."
         ];
 
         if (inputField.value.trim() !== '') {
