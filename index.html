@@ -1,420 +1,428 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Job Links Hub</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Anurag | C++ | Placements</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --bg: #f9f9f8;
-      --surface: #ffffff;
-      --surface-hover: #f4f4f2;
-      --border: rgba(0,0,0,0.08);
-      --border-strong: rgba(0,0,0,0.14);
-      --text-primary: #111110;
-      --text-secondary: #555552;
-      --text-muted: #999994;
-      --radius: 8px;
-    }
+  :root {
+    --bg: #08080a;
+    --bg-elevated: #0d0d10;
+    --surface: #131317;
+    --surface-hover: #1a1a1f;
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.14);
+    --text-primary: #f2f2f4;
+    --text-secondary: #9a9aa4;
+    --text-muted: #66666f;
+    --accent: #5ea2ff;
+    --accent-dim: rgba(94,162,255,0.12);
+    --accent-glow: rgba(94,162,255,0.22);
+    --radius-lg: 20px;
+    --radius-md: 14px;
+    --radius-sm: 10px;
+  }
 
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #111110;
-        --surface: #1c1c1a;
-        --surface-hover: #242422;
-        --border: rgba(255,255,255,0.08);
-        --border-strong: rgba(255,255,255,0.14);
-        --text-primary: #f0eeeb;
-        --text-secondary: #a8a8a2;
-        --text-muted: #666662;
-      }
-    }
+  html { scroll-behavior: smooth; }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text-primary);
-      min-height: 100vh;
-    }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
 
-    .hub {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 3rem 1.5rem 4rem;
-    }
+  /* ambient background glow */
+  .glow-field {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(600px circle at 50% -10%, rgba(94,162,255,0.10), transparent 60%),
+      radial-gradient(500px circle at 100% 30%, rgba(94,162,255,0.05), transparent 60%);
+  }
 
-    .eyebrow {
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 0.75rem;
-    }
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 4.5rem 1.5rem 3.5rem;
+  }
 
-    .headline {
-      font-size: 28px;
-      font-weight: 500;
-      color: var(--text-primary);
-      line-height: 1.25;
-      max-width: 480px;
-    }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
 
-    .sub {
-      margin-top: 0.75rem;
-      font-size: 15px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-      max-width: 440px;
-    }
+  .fade { opacity: 0; animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  .fade-1 { animation-delay: 0.02s; }
+  .fade-2 { animation-delay: 0.12s; }
+  .fade-3 { animation-delay: 0.22s; }
+  .fade-4 { animation-delay: 0.34s; }
+  .fade-5 { animation-delay: 0.46s; }
+  .fade-6 { animation-delay: 0.58s; }
 
-    .divider {
-      border: none;
-      border-top: 0.5px solid var(--border-strong);
-      margin: 2rem 0;
-    }
+  @media (prefers-reduced-motion: reduce) {
+    .fade { animation: none; opacity: 1; }
+    html { scroll-behavior: auto; }
+  }
 
-    /* Job rows */
-    .jobs { display: flex; flex-direction: column; }
+  /* Hero */
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border: 1px solid rgba(94,162,255,0.25);
+    padding: 5px 12px;
+    border-radius: 20px;
+    margin-bottom: 1.5rem;
+  }
 
-    .job-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: start;
-      gap: 1rem;
-      padding: 1.25rem 0;
-      border-bottom: 0.5px solid var(--border);
-      text-decoration: none;
-      border-radius: 0;
-      transition: background 0.12s, padding 0.12s, border-radius 0.12s;
-    }
+  .kicker .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent-glow);
+  }
 
-    .job-row:first-child { border-top: 0.5px solid var(--border); }
+  h1.headline {
+    font-size: clamp(2.1rem, 6vw, 3.1rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.12;
+    background: linear-gradient(180deg, #ffffff 0%, #c9c9d4 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
 
-    .job-row:hover {
-      background: var(--surface-hover);
-      border-radius: var(--radius);
-      border-top-color: transparent;
-      border-bottom-color: transparent;
-    }
+  h1.headline .accent {
+    background: linear-gradient(120deg, var(--accent), #8fc4ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
 
-    .job-company {
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 0.3rem;
-    }
+  .sub {
+    margin-top: 1rem;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    max-width: 460px;
+  }
 
-    .job-title {
-      font-size: 17px;
-      font-weight: 500;
-      color: var(--text-primary);
-      line-height: 1.3;
-    }
+  /* Badges */
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1.75rem;
+  }
 
-    .job-meta {
-      display: flex;
-      gap: 1rem;
-      margin-top: 0.5rem;
-      flex-wrap: wrap;
-    }
+  .badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    padding: 7px 13px;
+    border-radius: 20px;
+    backdrop-filter: blur(6px);
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+  }
 
-    .job-meta span {
-      font-size: 13px;
-      color: var(--text-secondary);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
+  .badge-pill:hover {
+    border-color: rgba(94,162,255,0.3);
+    color: var(--text-primary);
+    background: var(--accent-dim);
+  }
 
-    .meta-icon {
-      width: 14px;
-      height: 14px;
-      opacity: 0.45;
-      flex-shrink: 0;
-    }
+  .badge-pill svg { width: 14px; height: 14px; opacity: 0.8; flex-shrink: 0; }
 
-    .job-right {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 0.5rem;
-    }
+  /* Divider */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 3rem 0 2.25rem;
+  }
 
-    .badge {
-      font-size: 11px;
-      font-weight: 500;
-      padding: 3px 10px;
-      border-radius: 20px;
-      white-space: nowrap;
-    }
+  /* Cards */
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 
-    .badge-fresh  { background: #e6f5ec; color: #166534; }
-    .badge-exp    { background: #e6f0fb; color: #1e4d99; }
-    .badge-mid    { background: #fef3e2; color: #92400e; }
+  @media (min-width: 640px) {
+    .cards { grid-template-columns: 1fr 1fr; }
+  }
 
-    @media (prefers-color-scheme: dark) {
-      .badge-fresh  { background: #14401e; color: #6ee7a0; }
-      .badge-exp    { background: #172a52; color: #93b8f8; }
-      .badge-mid    { background: #422006; color: #fbbf6a; }
-    }
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem 1.6rem;
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+    transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
+  }
 
-    .arrow-icon {
-      width: 16px;
-      height: 16px;
-      opacity: 0.35;
-      margin-top: 2px;
-    }
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 0%), rgba(94,162,255,0.14), transparent 65%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+  }
 
-    /* More banner */
-    .more-banner {
-      margin-top: 2rem;
-      padding: 1.25rem 1.5rem;
-      border-radius: 12px;
-      background: var(--surface);
-      border: 0.5px solid var(--border-strong);
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(94,162,255,0.32);
+    background: var(--surface-hover);
+    box-shadow: 0 16px 40px -20px rgba(94,162,255,0.25), 0 4px 18px -6px rgba(0,0,0,0.5);
+  }
 
-    .more-dot {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: var(--border-strong);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
+  .card:hover::before { opacity: 1; }
 
-    .more-dot svg { width: 18px; height: 18px; opacity: 0.5; }
+  .card-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-dim);
+    border: 1px solid rgba(94,162,255,0.22);
+    margin-bottom: 1.1rem;
+  }
 
-    .more-text p   { font-size: 14px; color: var(--text-primary); font-weight: 500; }
-    .more-text span { font-size: 13px; color: var(--text-secondary); }
+  .card-icon svg { width: 21px; height: 21px; stroke: var(--accent); }
 
-    /* Social */
-    .section-label {
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-top: 2.5rem;
-      margin-bottom: 1rem;
-    }
+  .card-title {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.5rem;
+  }
 
-    .social-row {
-      display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-    }
+  .card-desc {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    flex-grow: 1;
+  }
 
-    .social-card {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 0.75rem 1rem;
-      border-radius: 12px;
-      border: 0.5px solid var(--border-strong);
-      background: var(--surface);
-      text-decoration: none;
-      flex: 1;
-      min-width: 180px;
-      transition: border-color 0.12s, background 0.12s;
-    }
+  .card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--accent);
+    margin-top: 1.4rem;
+  }
 
-    .social-card:hover {
-      border-color: var(--text-muted);
-      background: var(--surface-hover);
-    }
+  .card-cta svg {
+    width: 15px;
+    height: 15px;
+    transition: transform 0.25s ease;
+  }
 
-    .social-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
+  .card:hover .card-cta svg { transform: translateX(4px); }
 
-    .ig-icon { background: #fce8f7; }
-    .yt-icon { background: #fde8e8; }
+  /* Social */
+  .section-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
 
-    .social-icon svg { width: 20px; height: 20px; }
+  .social-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+  }
 
-    .social-label { font-size: 11px; color: var(--text-muted); }
-    .social-name  { font-size: 14px; font-weight: 500; color: var(--text-primary); }
+  .social-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.8rem 1.05rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    text-decoration: none;
+    flex: 1;
+    min-width: 155px;
+    transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
+  }
 
-    @media (max-width: 480px) {
-      .headline { font-size: 22px; }
-      .job-title { font-size: 15px; }
-      .social-card { min-width: 140px; }
-    }
-  </style>
+  .social-card:hover {
+    border-color: rgba(94,162,255,0.3);
+    background: var(--surface-hover);
+    transform: translateY(-2px);
+  }
+
+  .social-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: rgba(255,255,255,0.04);
+  }
+
+  .social-icon svg { width: 18px; height: 18px; }
+
+  .social-label { font-size: 10.5px; color: var(--text-muted); letter-spacing: 0.03em; text-transform: uppercase; }
+  .social-name { font-size: 13.5px; font-weight: 500; color: var(--text-primary); margin-top: 1px; }
+
+  footer {
+    margin-top: 3.5rem;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  footer .heart { color: #ff6b81; }
+
+  @media (max-width: 420px) {
+    .wrap { padding: 3.25rem 1.25rem 3rem; }
+  }
+</style>
 </head>
 <body>
-  <div class="hub">
-    <p class="eyebrow">Tech opportunities</p>
-    <h1 class="headline">Latest job openings for tech candidates</h1>
-    <p class="sub">Direct apply links, updated regularly. Bookmark and check back for new roles.</p>
+<div class="glow-field"></div>
 
-    <hr class="divider" />
+<div class="wrap">
 
-    <div class="jobs">
+  <span class="kicker fade fade-1"><span class="dot"></span>Open to students & freshers</span>
 
-      <a href="https://www.salesforce.com/company/careers/jobs/JR334858/software-engineering-amts/" target="_blank" rel="noreferrer" class="job-row">
-        <div>
-          <p class="job-company">Salesforce</p>
-          <p class="job-title">Software Engineering AMTS</p>
-          <div class="job-meta">
-            <span>
-              <svg class="meta-icon" viewBox="0 0 16 16" fill="none"><path d="M8 1.5A4.5 4.5 0 0 1 12.5 6c0 3-4.5 8.5-4.5 8.5S3.5 9 3.5 6A4.5 4.5 0 0 1 8 1.5Z" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="6" r="1.5" stroke="currentColor" stroke-width="1.2"/></svg>
-              Hyderabad, Bangalore
-            </span>
-            <span>
-              <svg class="meta-icon" viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 4V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1" stroke="currentColor" stroke-width="1.2"/></svg>
-              Bachelor's degree
-            </span>
-          </div>
-        </div>
-        <div class="job-right">
-          <span class="badge badge-fresh">Freshers</span>
-          <svg class="arrow-icon" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H6M12 4v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </div>
-      </a>
+  <h1 class="headline fade fade-2">Anurag <span class="accent">|</span> C++ <span class="accent">|</span> Placements</h1>
+  <p class="sub fade fade-3">Helping students become better developers.</p>
 
-      <a href="https://jobs.volvogroup.com/job/Bangalore-Graduate-Apprentice-Trainee-562122/1356401855/" target="_blank" rel="noreferrer" class="job-row">
-        <div>
-          <p class="job-company">Volvo</p>
-          <p class="job-title">Graduate Apprentice Trainee</p>
-          <div class="job-meta">
-            <span>
-              <svg class="meta-icon" viewBox="0 0 16 16" fill="none"><path d="M8 1.5A4.5 4.5 0 0 1 12.5 6c0 3-4.5 8.5-4.5 8.5S3.5 9 3.5 6A4.5 4.5 0 0 1 8 1.5Z" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="6" r="1.5" stroke="currentColor" stroke-width="1.2"/></svg>
-              Bangalore
-            </span>
-            <span>
-              <svg class="meta-icon" viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 4V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1" stroke="currentColor" stroke-width="1.2"/></svg>
-              Bachelor's / Graduation
-            </span>
-          </div>
-        </div>
-        <div class="job-right">
-          <span class="badge badge-fresh">Freshers</span>
-          <svg class="arrow-icon" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H6M12 4v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </div>
-      </a>
-
-      <a href="https://jobs.jobvite.com/tylertech/job/oAgaAfwk" target="_blank" rel="noreferrer" class="job-row">
-        <div>
-          <p class="job-company">Tyler Technologies</p>
-          <p class="job-title">Associate Software Engineer — Full Stack</p>
-          <div class="job-meta">
-            <span>
-              <svg class="meta-icon" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="5.5" width="13" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 5.5V4a3 3 0 0 1 6 0v1.5" stroke="currentColor" stroke-width="1.2"/></svg>
-              1–3 years
-            </span>
-            <span>
-              <svg class="meta-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M8 5v1.5M8 9.5V11M6.5 7a1.5 1.5 0 1 1 3 0c0 .83-.67 1.5-1.5 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-              7–15 LPA
-            </span>
-          </div>
-        </div>
-        <div class="job-right">
-          <span class="badge badge-mid">1–3 yrs</span>
-          <svg class="arrow-icon" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H6M12 4v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </div>
-      </a>
-
-      <a href="https://careers.spglobal.com/jobs/323823?lang=en-us" target="_blank" rel="noreferrer" class="job-row">
-        <div>
-          <p class="job-company">S&amp;P Global</p>
-          <p class="job-title">AI Software Engineer</p>
-          <div class="job-meta">
-            <span>
-              <svg class="meta-icon" viewBox="0 0 16 16" fill="none"><path d="M8 1.5A4.5 4.5 0 0 1 12.5 6c0 3-4.5 8.5-4.5 8.5S3.5 9 3.5 6A4.5 4.5 0 0 1 8 1.5Z" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="6" r="1.5" stroke="currentColor" stroke-width="1.2"/></svg>
-              Gurgaon, Hyderabad
-            </span>
-            <span>
-              <svg class="meta-icon" viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 4V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1" stroke="currentColor" stroke-width="1.2"/></svg>
-              Bachelor's / Master's
-            </span>
-          </div>
-        </div>
-        <div class="job-right">
-          <span class="badge badge-exp">Experienced</span>
-          <svg class="arrow-icon" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H6M12 4v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </div>
-      </a>
-
-      <a href="https://zycus.talismatic.com/jobs/JXFPUQYF7" target="_blank" rel="noreferrer" class="job-row">
-        <div>
-          <p class="job-company">Zycus</p>
-          <p class="job-title">AI Interns</p>
-          <div class="job-meta">
-            <span>
-              <svg class="meta-icon" viewBox="0 0 16 16" fill="none"><path d="M8 1.5A4.5 4.5 0 0 1 12.5 6c0 3-4.5 8.5-4.5 8.5S3.5 9 3.5 6A4.5 4.5 0 0 1 8 1.5Z" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="6" r="1.5" stroke="currentColor" stroke-width="1.2"/></svg>
-              Mumbai (Hybrid)
-            </span>
-            <span>
-              <svg class="meta-icon" viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 4V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1" stroke="currentColor" stroke-width="1.2"/></svg>
-              Bachelor's / MBA
-            </span>
-          </div>
-        </div>
-        <div class="job-right">
-          <span class="badge badge-fresh">Freshers</span>
-          <svg class="arrow-icon" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H6M12 4v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </div>
-      </a>
-
-    </div>
-
-    <div class="more-banner">
-      <div class="more-dot">
-        <svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.4"/><path d="M9 5.5V9l2.5 2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-      </div>
-      <div class="more-text">
-        <p>More roles coming soon</p>
-        <span>Check back regularly — this list is updated with new openings.</span>
-      </div>
-    </div>
-
-    <p class="section-label">Follow for updates</p>
-
-    <div class="social-row">
-      <a href="https://www.instagram.com/anurag24codes/" target="_blank" rel="noreferrer" class="social-card">
-        <div class="social-icon ig-icon">
-          <svg viewBox="0 0 24 24" fill="none">
-            <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="#c026a0" stroke-width="1.8"/>
-            <circle cx="12" cy="12" r="4.5" stroke="#c026a0" stroke-width="1.8"/>
-            <circle cx="17.5" cy="6.5" r="1" fill="#c026a0"/>
-          </svg>
-        </div>
-        <div>
-          <p class="social-label">Instagram</p>
-          <p class="social-name">@anurag24codes</p>
-        </div>
-      </a>
-      <a href="https://www.youtube.com/@Anurag24tripathi" target="_blank" rel="noreferrer" class="social-card">
-        <div class="social-icon yt-icon">
-          <svg viewBox="0 0 24 24" fill="none">
-            <rect x="2" y="5" width="20" height="14" rx="4" stroke="#dc2626" stroke-width="1.8"/>
-            <polygon points="10,8.5 16,12 10,15.5" fill="#dc2626"/>
-          </svg>
-        </div>
-        <div>
-          <p class="social-label">YouTube</p>
-          <p class="social-name">Anurag24tripathi</p>
-        </div>
-      </a>
-    </div>
-
+  <div class="badges fade fade-4">
+    <span class="badge-pill">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 3 7l9 5 9-5-9-5Z"/><path d="M3 12l9 5 9-5"/><path d="M3 17l9 5 9-5"/></svg>
+      AI Tools
+    </span>
+    <span class="badge-pill">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>
+      Placement Updates
+    </span>
+    <span class="badge-pill">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+      Coding Resources
+    </span>
+    <span class="badge-pill">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      Interview Prep
+    </span>
   </div>
+
+  <hr class="divider fade fade-4" />
+
+  <div class="cards fade fade-5">
+    <a href="job.html" class="card" id="card1">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg>
+      </div>
+      <p class="card-title">💼 Latest Hirings</p>
+      <p class="card-desc">Freshers jobs from top companies. Updated regularly.</p>
+      <span class="card-cta">Open Jobs
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </a>
+
+    <a href="code.html" class="card" id="card2">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/><path d="M9 7h7M9 11h7M9 15h4"/></svg>
+      </div>
+      <p class="card-title">📚 Engineering Resources</p>
+      <p class="card-desc">Roadmaps, notes, cheat sheets & interview resources.</p>
+      <span class="card-cta">Explore
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </a>
+  </div>
+
+  <p class="section-label fade fade-6" style="margin-top:2.75rem;">Follow me</p>
+
+  <div class="social-row fade fade-6">
+    <a href="https://www.instagram.com/anurag24codes/" target="_blank" rel="noreferrer" class="social-card">
+      <div class="social-icon" style="background:rgba(224,60,145,0.12);">
+        <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5.5" stroke="#e0509a" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#e0509a" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#e0509a"/></svg>
+      </div>
+      <div>
+        <p class="social-label">Instagram</p>
+        <p class="social-name">@anurag24codes</p>
+      </div>
+    </a>
+
+    <a href="https://www.youtube.com/@Anurag24tripathi" target="_blank" rel="noreferrer" class="social-card">
+      <div class="social-icon" style="background:rgba(220,38,38,0.12);">
+        <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="4" stroke="#ea5252" stroke-width="1.8"/><polygon points="10,8.5 16,12 10,15.5" fill="#ea5252"/></svg>
+      </div>
+      <div>
+        <p class="social-label">YouTube</p>
+        <p class="social-name">Anurag Tripathi</p>
+      </div>
+    </a>
+
+    <!-- <a href="https://bit.ly/anurag24codes" target="_blank" rel="noreferrer" class="social-card">
+      <div class="social-icon" style="background:var(--accent-dim);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07L11.5 4.5"/><path d="M14 11a5 5 0 0 0-7.07 0L4.1 13.83a5 5 0 0 0 7.07 7.07l1.36-1.36"/></svg>
+      </div>
+      <div>
+        <p class="social-label">All links</p>
+        <p class="social-name">bit.ly/anurag24codes</p>
+      </div>
+    </a> -->
+  </div>
+
+  <footer class="fade fade-6">Made for students <span class="heart">❤</span></footer>
+
+</div>
+
+<script>
+  // Subtle cursor-following glow on cards
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      card.style.setProperty('--mx', x + '%');
+      card.style.setProperty('--my', y + '%');
+    });
+  });
+</script>
 </body>
 </html>
