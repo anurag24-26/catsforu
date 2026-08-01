@@ -184,7 +184,7 @@
     padding: 1.75rem 1.6rem;
     text-decoration: none;
     color: inherit;
-    overflow: hidden;
+    overflow: visible;
     transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
   }
 
@@ -192,11 +192,15 @@
     content: "";
     position: absolute;
     inset: 0;
+    border-radius: var(--radius-lg);
     background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 0%), rgba(94,162,255,0.14), transparent 65%);
     opacity: 0;
     transition: opacity 0.35s ease;
     pointer-events: none;
+    z-index: 0;
   }
+
+  .card > * { position: relative; z-index: 1; }
 
   .card:hover {
     transform: translateY(-4px);
@@ -252,6 +256,73 @@
   }
 
   .card:hover .card-cta svg { transform: translateX(4px); }
+
+  /* ── Green starburst "NEW" sticker ──
+     Drawn entirely in CSS (no image asset): a spiky cutout star shape via
+     clip-path, layered on a slightly larger white "paper edge" copy behind
+     it, rotated like a sticker slapped on the corner of the card. */
+  .sticker-new {
+    position: absolute;
+    top: -16px;
+    right: -14px;
+    z-index: 5;
+    width: 76px;
+    height: 76px;
+    transform: rotate(11deg);
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.45));
+    animation: stickerPop 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
+    animation-delay: 0.7s;
+    pointer-events: none;
+  }
+
+  @keyframes stickerPop {
+    0%   { transform: rotate(11deg) scale(0); opacity: 0; }
+    60%  { transform: rotate(11deg) scale(1.12); opacity: 1; }
+    100% { transform: rotate(11deg) scale(1); opacity: 1; }
+  }
+
+  .sticker-new .star-edge,
+  .sticker-new .star-face {
+    position: absolute;
+    inset: 0;
+    clip-path: polygon(
+      50% 0%, 61% 11%, 74% 3%, 78% 18%, 93% 13%,
+      90% 29%, 100% 38%, 88% 47%, 99% 60%, 85% 63%,
+      89% 79%, 73% 74%, 71% 91%, 58% 80%, 50% 100%,
+      42% 80%, 29% 91%, 27% 74%, 11% 79%, 15% 63%,
+      1% 60%, 12% 47%, 0% 38%, 10% 29%, 7% 13%,
+      22% 18%, 26% 3%, 39% 11%
+    );
+  }
+
+  .sticker-new .star-edge {
+    background: #f4faf1;
+    transform: scale(1.09);
+  }
+
+  .sticker-new .star-face {
+    background:
+      radial-gradient(circle at 32% 28%, #7CFF6B 0%, #34C424 45%, #189611 100%);
+  }
+
+  .sticker-new .star-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(-11deg);
+  }
+
+  .sticker-new .star-text span {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 16.5px;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    text-shadow: 0 1px 0 rgba(9,66,6,0.55), 0 0 1px rgba(9,66,6,0.4);
+    -webkit-text-stroke: 0.4px rgba(9,66,6,0.35);
+  }
 
   /* Social */
   .section-label {
@@ -316,6 +387,8 @@
 
   @media (max-width: 420px) {
     .wrap { padding: 3.25rem 1.25rem 3rem; }
+    .sticker-new { width: 64px; height: 64px; top: -12px; right: -10px; }
+    .sticker-new .star-text span { font-size: 14px; }
   }
 </style>
 </head>
@@ -352,6 +425,11 @@
 
   <div class="cards fade fade-5">
     <a href="job.html" class="card" id="card1">
+      <div class="sticker-new" aria-hidden="true">
+        <div class="star-edge"></div>
+        <div class="star-face"></div>
+        <div class="star-text"><span>NEW</span></div>
+      </div>
       <div class="card-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg>
       </div>
